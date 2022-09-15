@@ -1,0 +1,3197 @@
+
+<!DOCTYPE HTML>
+<html lang="pt">
+    <head>
+    
+	<script>
+
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        function getDuplicatedParameters (parameterMap) {
+            var arr = parameterMap;
+            var sorted_arr = arr.slice().sort();
+            var results = [];
+            for (var i = 0; i < arr.length - 1; i++) {
+                if (sorted_arr[i + 1] == sorted_arr[i]) {
+                    results.push(sorted_arr[i]);
+                }
+            }
+            return results;
+        }
+
+        function getParameterMapName (url) {
+            var queryString = getQueryString(url);
+            var parameterMaps = queryString.split("=");
+            var paramsName = [];
+            for(var i in parameterMaps)
+            {
+                var param = parameterMaps[i];
+                var paramName;
+                if (param.indexOf('?')>= 0) {
+                    paramName = param.split('?')[1];
+                } else {
+                    paramName = param.split('&')[1];
+                }
+                paramsName[i] = paramName;
+            }
+            return paramsName;
+        }
+
+        function purgeDuplicatedParams (url) {
+            var urlResult = url;
+            var duplicatedParams = getDuplicatedParameters(getParameterMapName(url));
+            for (var i in duplicatedParams) {
+                urlResult = removeURLParameter(urlResult,duplicatedParams[i]);
+            }
+            return urlResult;
+        }
+
+        function updateQueryStringParameter(uri, key, value) {
+            if (value != null && value.length > 0) {
+                var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+                var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+                if (uri.match(re)) {
+                    return uri.replace(re, '$1' + key + "=" + value + '$2');
+                }
+                else {
+                    return uri + separator + key + "=" + value;
+                }
+            }
+            return uri;
+        }
+
+        function removeURLParameter(url, parameter) {
+            var urlparts= url.split('?');
+            if (urlparts.length>=2) {
+                var prefix= encodeURIComponent(parameter)+'=';
+                var pars= urlparts[1].split(/[&;]/g);
+                var removed = false;
+                for (var i= pars.length; i-- > 0;) {
+                    if (pars[i].lastIndexOf(prefix, 0) !== -1 && !removed) {
+                        pars.splice(i, 1);
+                        removed = true;
+                    }
+                }
+                url= urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : "");
+                return url;
+            } else {
+                return url;
+            }
+        }
+
+        function getQueryString(url, redirect) {
+            var queryString = url.split('?')[1];
+            if (typeof queryString == 'undefined') {
+                queryString = '';
+            } else {
+                if (typeof (redirect)!= 'undefined' && redirect.indexOf('?')>0) {
+                    queryString = '&' + queryString;
+                } else {
+                    queryString = '?' + queryString;
+                }
+            }
+            return queryString;
+        }
+
+        try {
+	        if(readCookie('langRedirect') == null){
+	            document.cookie = "langRedirect=MQ==;path=/" ;
+	            var langMapString = "";
+	            if( langMapString != null ){
+	                var browserlanguage = navigator.language;
+	                browserlanguage = browserlanguage.split("-")[0];
+	                var obj = JSON.parse(langMapString);
+	                var redirect = obj[browserlanguage];
+	                if(redirect != null){
+	                    redirect = purgeDuplicatedParams (redirect + getQueryString(window.location.href, redirect));
+	                    window.location.href=updateQueryStringParameter(redirect,'refred', document.referrer);
+	                }
+	            }
+	        }
+        } catch (e) {
+        	console.log(e.message);
+        }
+        
+    document.addEventListener("DOMContentLoaded", function(event) { 
+   		history.replaceState({}, 'Title', removeURLParameter(location.href, 'refred'));
+   	});
+    </script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+    
+    
+    
+    
+    
+<link rel="stylesheet" href="/etc/clientlibs/foundation/main.min.css" type="text/css">
+<script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery.min.js"></script>
+<script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/utils.min.js"></script>
+<script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery/granite.min.js"></script>
+<script type="text/javascript" src="/etc/clientlibs/foundation/jquery.min.js"></script>
+<script type="text/javascript" src="/etc/clientlibs/foundation/main.min.js"></script>
+
+
+
+    
+    <link href="/etc/designs/enel-br.css" rel="stylesheet" type="text/css"/>
+
+    
+
+
+
+
+
+
+
+
+    
+
+    
+    
+<link rel="stylesheet" href="/etc/designs/enel-latam-com/clientlibs/main.min.css" type="text/css">
+
+
+
+
+    
+<link rel="stylesheet" href="/etc/designs/enel-br/clientlib-site.min.css" type="text/css">
+
+
+
+
+
+
+
+
+    
+    <meta name="author" content=""/>
+
+
+
+	<meta name="robots" content="index,follow"/>
+
+    
+<meta property="og:locale" content="pt"/>
+<meta property="og:url" content="https://https://10.154.61.212:4503/content/enel-br/pt.html/content/enel-br/pt.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="Enel Brasil"/>
+<meta property="og:description" content="Empresa multinacional do mercado de energia, a Enel está presente em mais de 30 países."/>
+<meta property="og:image"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:description" content="Empresa multinacional do mercado de energia, a Enel está presente em mais de 30 países."/>
+<meta name="twitter:title" content="Enel Brasil"/>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/etc/designs/enel-br/favicon.ico"/>
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/etc/designs/enel-br/favicon.ico"/>
+    
+    
+     <title>Enel Brasil</title>
+    
+ 	
+	
+     <link rel="alternate" hreflang="en" href="https://www.enel.com.br/en.html"/>
+    
+     <link rel="alternate" hreflang="pt" href="https://www.enel.com.br/pt.html"/>
+    
+
+    
+    
+     <link rel="canonical" href="https://www.enel.com.br/pt.html"/>
+    
+
+    <script>document.createElement( "picture" );</script>
+    <script async="async" src="/etc/designs/enel-br/js/picturefill.min.js"></script>
+
+    <script src="//assets.adobedtm.com/8331ab45ea9046af83c9222bfd02410c9f62ef0d/satelliteLib-80769a3e54a38712e4d1437bfd9ad8802ee79bee.js"></script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T6K5CWN');</script>
+<!-- End Google Tag Manager -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138274083-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-138274083-1');
+</script>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T6K5CWN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <style type="text/css">
+    	/*
+		This CSS resource incorporates links to font software which is the valuable copyrighted property of Monotype and/or its suppliers. You may not attempt to copy, install, redistribute, convert, modify or reverse engineer this font software. Please contact Monotype with any questions regarding Web Fonts: https://www.linotype.com
+		*/
+        @import url("https://fast.fonts.net/lt/1.css?apiType=css&c=1ab388cf-bd83-4ae4-a724-df49b109cfd5&fontids=1475944,1475956,1475968");
+    </style>
+</head>
+    <body class="page-home">
+
+    
+<script type="text/javascript" src="/etc/designs/enel-latam-com/clientlibs/main-common.min.js"></script>
+
+
+
+	 
+
+
+
+
+<script type="text/javascript"> 
+var enel_data = {};
+var enel_data_navigation_base = [];
+
+enel_data.navigation = ['home'];
+enel_data_navigation_base = ['home'];
+
+var countryDTM = "BR";
+enel_data.country_state = getDtmCountryState(countryDTM);
+enel_data.page_lang = "pt";
+
+// User information
+dtmLoadLoginValues(enel_data);
+
+// Layuot
+enel_data.layout = dtmDetectLayout();
+
+var searchKeyDtm = "";
+if (searchKeyDtm != '') { 
+	enel_data.keyword = searchKeyDtm;
+	enel_data.results = '';
+}	
+if ('' != '') {
+	enel_data.map_type = '';
+}
+var prov = getDtmProvValue();
+if (prov != null && typeof prov != 'undefined' && prov != '') {
+	enel_data.prov = prov;
+}
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138274083-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-138274083-1');
+</script>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T6K5CWN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+ <!-- HOME BRASIL START -->
+
+
+
+    
+
+<!-- HEADER BRASIL START -->
+
+
+<!-- START MODULE: GLOBAL-SEARCH-->
+
+
+    <div data-module="globalSearch" class="module search-form brasil" style="background-color:#ff0f64">
+        <!-- START MODULE: GLOBAL-SEARCH-HEADER BRASIL-->
+        
+        
+  <div class="search-form__header">
+    <div itemscope itemtype="http://schema.org/Organization" class="search-form__logo ">
+        
+        
+        
+            <a itemprop="url" href="https://www.enel.com.br/pt.html"></a>
+        
+      		<img itemprop="logo" src="/etc/designs/enel-br/img/enel-logo.png"/>
+      	    </a>
+    </div>
+    <div class="search-form__btns">
+      <button class="global-header__btn search-form__btn-close"><span class="cross-icon"></span></button>
+    </div>
+  </div>
+
+        <!-- END MODULE: GLOBAL-SEARCH-HEADER BRASIL-->
+        <div class="search-form__inner">
+            <div class="container">
+                <form id="global_search_form" action="https://www.enel.com.br/pt/busca.html" method="GET" autocomplete="off" data-json-url="https://www.enel.com.br/pt/_jcr_content.jsonsearch.html?type=keywords">
+                    <div class="search-form__input__wrap">
+                        <input type="search" name="search" placeholder="Busca" class="search-form__input" style="background-color:#ff0f64"/>
+                    </div>
+                    <div class="search-form__submit__wrap">
+                        <button type="submit" class="search-form__submit icon-search"><span>Submit</span></button>
+                    </div>
+                </form>
+
+                
+                <span class="search-form__content" data-bannerDtm="header quick link">
+                    <div class="search-form__links search-form__links--quick">
+                        <span class="search-form__heading">Links rápidos</span>
+                        <ul>
+                            <li>
+                                <a href="https://www.enel.com.br/pt/Canais.html" target="_self">Canais de Atendimento Enel Rio de Janeiro</a>
+                            </li>
+                        
+                            <li>
+                                <a href="https://www.enel.com.br/pt/Para_Voce.html" target="_self">Para Você - Segunda Via</a>
+                            </li>
+                        
+                            <li>
+                                <a href="https://www.enel.com.br/pt/Para_Voce.html" target="_self">Para Você - Falta de Luz</a>
+                            </li>
+                        
+                            <li>
+                                <a href="https://www.enel.com.br/pt/Para_Voce.html" target="_self">Para Você - Serviços</a>
+                            </li>
+                        
+                            <li>
+                                <a href="https://www.enel.com.br/pt/quemsomos/trabalhe-conosco.html" target="_self">Trabalhe conosco</a>
+                            </li>
+                        
+                            <li>
+                                <a href="https://www.enel.com.br/pt/boleto.html" target="_self">Boleto</a>
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+
+
+            </div>
+        </div>
+    </div>
+    <script type="text/template" id="TMPL--search-form__content">
+        <div class="search-form__links search-form__links--quick search-form__suggestions">
+            <span class="search-form__heading"></span>
+            <ul>
+                <% if (results) { %>
+                <% for (var i=0; i<results.length; i++) { %>
+                <li><a href="https://www.enel.com.br/pt/busca.html?search=<%-results[i]%>"><%-results[i]%></a></li>
+                <% } %>
+                <% } %>
+            </ul>
+        </div>
+    </script>
+
+<!-- END MODULE: GLOBAL-SEARCH-->
+
+<!-- START MODULE: GLOBAL-HEADER-->
+
+  <header id="globalheader" data-module="global-header" class="module global-header brazil">
+	<!-- <input data-sly-test="true"
+		class="redirectUrlLogin" type="hidden"
+		data-redirectUrl="https://www.enel.com.br/pt/private-area.html"
+		data-errorLoginUrl="https://www.enel.com.br/pt/loginKO"
+		data-redirectagregarurl=""
+		data-country="enel-br" /> --> 
+		<input class="redirectUrlLoginBtn" type="hidden" data-sessionDataKeyUrl="https://accounts.enel.com/samlsso?spEntityID=ENEL_RJO_WEB_BRA" data-logoutUrl="https://accounts.enel.com/commonauth?commonAuthLogout=true&amp;type=samlsso&amp;relyingParty=ENEL_RJO_WEB_BRA&amp;commonAuthCallerPath=https://www.enel.com.br/pt/login.html"/>
+
+	<div class="global-header__main">
+		
+
+		<style>
+		.pvtArea-wrapper{
+			top: 50px;
+		}
+		@media screen and (max-width:767px) {
+			.global-header__logo {
+				max-width: 60px !important;
+			}
+		}
+		</style>
+		<div itemscope itemtype="http://schema.org/Organization" class="global-header__logo" style="">
+
+			
+			    <a data-bannerdtm="logo" itemprop="url" href="https://www.enel.com.br/pt.html"> <img itemprop="logo" src="/etc/designs/enel-br/img/enel-logo.png" class="global-header__logo__bw"/> <img itemprop="logo" src="/etc/designs/enel-br/img/enel-logo.png" class="global-header__logo__color"/> </a> 
+		</div>
+		<div class="global-header__links">
+			<ul>
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/Canais.html" target="_self">Atendimento</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/Para_Voce.html" target="_self">Para Você</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/Corporativo_e_Governo.html" target="_self">Corporativo e Governo</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/investidores.html" target="_self">Investidores</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/Sustentabilidade.html" target="_self">Inovação e Sustentabilidade</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/quemsomos.html" target="_self">A Enel</a>
+				</li>
+			
+				<li><a data-bannerdtm="header link" href="https://www.enel.com.br/pt/historias.html" target="_self">Histórias</a>
+				</li>
+			</ul>
+		</div>
+		<div class="global-header__btns">
+			
+
+
+			 <!-- brasile casi di apertura modale form login - inizio -->
+			<!-- area privata caso autenticato desktop:  ovale mi enel-->
+			
+			<!-- area privata caso autenticato mobile: omino doppio-->
+			
+			<!-- area pubblica: omino singolo-->
+			
+			<!-- brasile casi di apertura modale - fine --> <!-- brasile casi di link a pagina di login - inizio -->
+			<!-- area privata caso autenticato desktop:  ovale mi enel-->
+			<button class="pvtArea-btn-myEnel desktop-visible" style="display: none" data-src="#login-wrapper" onclick="goPrivateAreaBr()">
+				<span>MInha Enel</span>
+			</button>
+			<!-- area privata caso autenticato mobile: omino doppio-->
+			<button class="global-header__btn btn-user-open desktop-hidden" style="display: none" data-src="#login-wrapper" onclick="goPrivateAreaBr()">
+				<span class="icon-user-twice"></span>
+			</button>
+			<!-- area pubblica: omino singolo--> <a class="global-header__btn btn-user" href="https://www.enel.com.br/pt/login" target="_self"><span class="icon-user"></span></a> <!-- brasile casi di link a pagina - fine -->
+			
+
+
+			<button class="global-header__btn btn-search-open">
+				<span class="icon-search-small"></span>
+			</button>
+			
+			<button class="global-header__btn btn-menu">
+				<span class="icon-menu"></span>
+			</button>
+
+			
+
+		</div>
+	</div>
+
+
+
+</header>  <!-- Pop-up login -->  <script>
+			function goPrivateAreaBr() {
+				if(window.location.href.indexOf("pt-goias") != -1){
+					window.location.href = $(".redirectUrlLoginBtn")[0].dataset.sessiondatakeyurl;
+		        }else{
+		        	var currentUrl = (window.location.pathname);
+					commonLatamAjaxCall(currentUrl, null, "checkAuthentication", "POST", function(result){
+		    			if(typeof result != 'undefined' && typeof result != 'undefined' && result == true){
+		    				if ($(".redirectUrlLogin")[0].dataset.redirecturl != undefined && $(".redirectUrlLogin")[0].dataset.redirecturl != "") {
+									window.location.replace($(".redirectUrlLogin")[0].dataset.redirecturl);
+								}
+			      		} else {
+			      			$.fancybox.open( $('#login-wrapper'));
+			      		}
+	    			});
+		        }
+			}
+		</script> 
+<!-- END MODULE: GLOBAL-HEADER-->
+
+<!-- START MODULE: GLOBAL-SIDE-MENU-->
+
+
+    
+    <div data-module="global-megamenu" class="megamenu module hide">
+
+  
+    
+    
+
+<style>
+.megamenu__new {
+	display: flex !important;
+}
+
+@media screen and (max-width:768px) {
+	.megamenu__news {
+		display: none !important;
+	}
+}
+</style>
+
+	<div class="megamenu__main">
+		<div class="megamenu__main__inner">
+			<div class="megamenu__main__header">
+				
+
+    
+
+    
+
+    
+        <a href="https://www.enel.com.br/pt.html" class="megamenu-content-header-logo" data-bannerdtm="megamenu-logo">
+    
+        <img src="/etc/designs/enel-br/img/enel-logo-color.png" aria-label="Ir al inicio del sitio." title="Ir al inicio del sitio."/>
+    </a>
+
+			</div>
+			<div class="megamenu__main__body">
+				<nav class="megamenu__navSecondary">
+					
+				</nav>
+				<div class="megamenu__news">
+					
+					 <a id="megamenu__news-link" href="https://www.enel.com.br/pt/_jcr_content.news.html" style="display: none"></a> <script type="text/javascript">
+							$(document)
+									.ready(
+											function() {
+												$(".megamenu__news")
+														.load(
+																$(
+																		"#megamenu__news-link")
+																		.attr(
+																				"href"),
+																function() {
+																	enel.modules['global-megamenu']
+																			.init();
+																});
+											});
+						</script> 
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<nav class="megamenu__nav">
+  <div class="megamenu__nav__header">
+    
+      <ul class="megamenu__lang-links">
+        <li>
+          <a alt="en" style="text-transform: uppercase;" href="https://www.enel.com.br/en.html">EN</a>
+        </li>
+      
+        <li class="selected">
+          <a alt="pt" style="text-transform: uppercase;" href="https://www.enel.com.br/pt.html">PT-BR</a>
+        </li>
+      </ul>
+    
+    <button class="btn-close" aria-label="Cerrar." title="Cerrar."><span class="cross-icon"></span></button>
+  </div>
+  <div class="megamenu__nav__body">
+    
+
+<script>
+	$( document ).ready(function() {
+		var currentUrl = (window.location.pathname);
+		if(currentUrl.includes("private-area.html")){
+			commonLatamAjaxCall(currentUrl, null, "checkAuthentication", "POST", function(result){
+    			if(typeof result != 'undefined' && typeof result != 'undefined' && result == true){
+      				$("#notLoggedBox").hide();
+					$("#loggedBox").show();
+      			}
+    		});
+		}
+	});
+</script>
+    <div class="megamenu__accordian open primaryMenu">
+      <!--START: NAVIGATION PRIMARY-->
+
+
+
+
+<div class="megamenu__accordian__header">
+    Enel Brasil
+</div>
+
+<div class="megamenu__accordian__body" style="display: block;" data-bannerDtm="megamenu-primary-navigation">
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=para-voc&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/Para_Voce.html">
+                         Para Você
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=corporativo-e-governo&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/Corporativo_e_Governo.html">
+                         Corporativo e Governo
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=investidores&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/investidores.html">
+                         Investidores
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=inovao-e-sustentabilidade&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/Sustentabilidade.html">
+                         Inovação e Sustentabilidade
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+    
+    
+</div>
+<!--END: NAVIGATION PRIMARY-->
+
+
+    
+      <!--START: NAVIGATION PRIMARY-->
+
+
+
+
+
+
+<div class="megamenu__accordian__body" style="display: block;" data-bannerDtm="megamenu-primary-navigation2">
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=a-enel&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/quemsomos.html">
+                         A Enel
+                         
+                        </a>
+                    
+                        <ul class="megamenu__submenu">
+                            
+                                <li>
+                                    <a name="&lid=trabalhe-conosco&lpos=megamenu" target="_parent" href="https://www.enel.com.br/pt/quemsomos/trabalhe-conosco.html">Trabalhe Conosco</a>
+                                </li>
+                            
+                                <li>
+                                    <a name="&lid=mdia&lpos=megamenu" target="_parent" href="https://www.enel.com.br/pt/midia.html">Mídia</a>
+                                </li>
+                            
+                                <li>
+                                    <a name="&lid=fornecedores&lpos=megamenu" target="_parent" href="https://www.enel.com.br/pt/quemsomos/a201611-fornecedores.html">Fornecedores</a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+    
+    
+</div>
+<!--END: NAVIGATION PRIMARY-->
+
+
+    
+      <!--START: NAVIGATION PRIMARY-->
+
+
+
+
+
+
+<div class="megamenu__accordian__body" style="display: block;" data-bannerDtm="megamenu-primary-navigation3">
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=histrias&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/historias.html">
+                         Histórias
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=canais-de-atendimento&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/Canais.html">
+                         Canais de Atendimento
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+
+        
+            <ul class="megamenu__links">
+                <li>
+                        <a name="&lid=perguntas-frequentes&lpos=megamenu" class="megamenu__links__heading " target="_self" href="https://www.enel.com.br/pt/Canais/Perguntas_Frequentes.html">
+                         Perguntas Frequentes
+                         
+                        </a>
+                    
+                </li>
+            </ul>
+        
+
+        
+    
+    
+    
+</div>
+<!--END: NAVIGATION PRIMARY-->
+
+
+    
+      <!--START: NAVIGATION PRIMARY-->
+
+
+
+
+
+
+
+<!--END: NAVIGATION PRIMARY-->
+
+
+    
+    </div>
+    
+      <!--START: NAVIGATION SECONDARY-->
+
+
+  <div class="megamenu__accordian secondaryMenu publishmode" data-bannerDtm="megamenu-secundary-navigation">
+    <div class="megamenu__accordian__header ">
+      Sites Enel
+    </div>
+    <div class="megamenu__accordian__body">
+      
+        
+          <ul class="megamenu__links" style="display:block;" data-bannerDtm='megamenu secundary links'>
+            <li>
+              <a name="&lid=outros-sites&lpos=megamenu" class="megamenu__links__heading" target="_self">Outros sites</a>
+              
+                <ul class="megamenu__submenu">
+                  
+                    <li>
+                      <a name="&lid=enel-x&lpos=megamenu" title="Enel X, Se abre en ventana nueva" target="_blank" href="http://www.enelx.com/br/pt">Enel X</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=canal-tico&lpos=megamenu" title="Canal Ético, Se abre en ventana nueva" target="_blank" href="http://secure.ethicspoint.eu/domain/media/pt/gui/102504/index.html">Canal Ético</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=mercado-livre-de-energia&lpos=megamenu" title="Mercado Livre de Energia, Se abre en ventana nueva" target="_blank" href="https://www.enelenergialivre.com.br/">Mercado Livre de Energia</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+
+          </ul>
+        
+        
+      
+        
+          <ul class="megamenu__links" style="display:block;" data-bannerDtm='megamenu secundary links'>
+            <li>
+              <a name="&lid=sites-globais&lpos=megamenu" class="megamenu__links__heading" target="_self">Sites Globais</a>
+              
+                <ul class="megamenu__submenu">
+                  
+                    <li>
+                      <a name="&lid=enel-corporate&lpos=megamenu" title="Enel Corporate, Se abre en ventana nueva" target="_blank" href="http://www.enel.com/">Enel Corporate</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=enel-green-power&lpos=megamenu" title="Enel Green Power, Se abre en ventana nueva" target="_blank" href="http://www.enelgreenpower.com">Enel Green Power</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=enel-start-ups&lpos=megamenu" title="Enel Start-Ups, Se abre en ventana nueva" target="_blank" href="http://startup.enel.com/en/home">Enel Start-Ups</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=global-procurement&lpos=megamenu" title="Global Procurement, Se abre en ventana nueva" target="_blank" href="http://globalprocurement.enel.com/pt">Global Procurement</a>
+                    </li>
+                  
+                    <li>
+                      <a name="&lid=global-trading&lpos=megamenu" title="Global Trading, Se abre en ventana nueva" target="_blank" href="http://globaltrading.enel.com">Global Trading</a>
+                    </li>
+                  
+                </ul>
+              
+            </li>
+
+          </ul>
+        
+        
+      
+    </div>
+  </div>
+  <div class="megamenu__accordian secondaryMenu publishmode" data-bannerDtm="megamenu-secundary-navigation">
+    
+    
+  </div>
+
+<!--END: NAVIGATION SECONDARY-->
+
+    
+    <div class="megamenu__news__mobile"></div>
+  </div>
+</nav>
+
+
+
+  
+
+
+  
+
+  
+
+
+  
+
+  
+
+</div>
+
+<!-- END MODULE: GLOBAL-SIDE-MENU-->
+
+
+    
+
+<!-- HEADER BRASIL END -->
+
+
+	 
+	 
+<style>
+	@media screen and (min-width: 1024px) {
+        body main#main {
+            background-position: 100%;
+            background-attachment: fixed;
+            background-size: cover;
+            width: 100%;
+            background-repeat: no-repeat;
+        }
+    }
+    @media screen and (max-width: 1023px) {
+        body main#main {
+            background-position: 100% 0%;
+            background-attachment: fixed;
+            background-size: auto;
+            width: 100%;
+            background-repeat: no-repeat;
+        }
+    }
+</style>
+<main id="main" class="home-layout">
+
+
+
+
+
+
+
+<!-- start update imille structure 6/12/2018 only for enablecarousel-->
+<div aria-hidden="true" id="rotating-item-wrapper" data-bannerDtm="hero">
+	<div class="home-hero__bg" id="home-hero__bg_0" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/banners-home/banner-entenda-sua-conta-ajuste.jpg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+
+	<div class="home-hero__bg" id="home-hero__bg_1" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/banners-home/banner-energia.jpg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+
+	<div class="home-hero__bg" id="home-hero__bg_2" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/inovação-e-sustentabilidade/relatorio-anual/open-future.jpg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+
+	<div class="home-hero__bg" id="home-hero__bg_3" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/imagens-home/RJ-seguranca.jpg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+
+	<div class="home-hero__bg" id="home-hero__bg_4" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/para-você/classificacao-nas-subclasses/familia-pagina-classificacao.jpg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+
+	<div class="home-hero__bg" id="home-hero__bg_5" style="display: none">
+		<div class="home-hero__bg__img">
+      		
+      			<img class="rotating-item" src="/content/dam/enel-br/megamenu/banners-home/receba-sua-conta-banner.jpeg"/>
+      		
+      		<!-- video home hero start -->
+      		
+			<!-- video home hero end -->
+    	</div>
+  <!-- mancante spostato sotto -->
+  </div>
+</div>
+
+
+
+<!-- start if  bullet eneabled -->
+
+	<section data-module="homeHeroBullet" class="module custom-home-swiper home-swiper home-swiper-peru rounded-dots" data-bannerDtm="hero">
+		<div class="swiper-container gallery-top-peru">
+			<div class="swiper-wrapper">
+				<div data-slide="0" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Tem novidade no visual da sua conta de energia</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.enel.com.br/pt/Para_Voce/entenda_sua_conta.html" target="_blank" name="&lid=tem-novidade-no-visual-da-sua-conta-de-energia&lpos=visore" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			
+				<div data-slide="1" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Gato de energia é crime. Denuncie</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.enel.com.br/pt/energia-legal.html" name="&lid=gato-de-energia--crime-denuncie&lpos=visore" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			
+				<div data-slide="2" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Conheça o nosso Relatório de Sustentabilidade 2021</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.enel.com.br/pt/Sustentabilidade/relatorios-anuais.html" target="_blank" name="&lid=conhea-o-nosso-relatrio-de-sustentabilidade-2021&lpos=visore" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			
+				<div data-slide="3" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Quando o assunto é segurança com a rede elétrica, a Enel convida você para participar do movimento.</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.enel.com.br/pt/movimentopelaseguranca.html" target="_blank" name="&lid=quando-o-assunto--segurana-com-a-rede-eltrica-a-enel-convida-voc-para-participar-do-movimento&lpos=visore" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			
+				<div data-slide="4" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Novas regras da Tarifa Social de Energia</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.enel.com.br/pt/Para_Voce/classificacao-nas-subclasses-residencial-baixa-renda" target="_blank" name="&lid=novas-regras-da-tarifa-social-de-energia&lpos=visore" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			
+				<div data-slide="5" class="swiper-slide">
+					<div data-bg-color="#ff5a0f" class="data"></div>
+					<div class="home-hero__content">
+						<div class="home-hero__content__inner">
+							<p class="text--uppercase-heading"></p>
+							<div>
+								<div class="home-hero__title-container">
+									<div class="home-hero__title-mask">
+										<div class="home-hero__title-cursor"></div>
+										<div class="home-hero__title-wrap">
+											<h2 class="text--page-heading">Receba a sua conta por e-mail!</h2>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="home-hero__cta-container">
+								<a href="https://www.eneldistribuicao.com.br/rj/AcessoRapidoContaPorEmail.aspx" name="&lid=receba-a-sua-conta-por-e-mail&lpos=visore" alt="Receba a sua conta por e-mail!" class="btn-cta btn-cta--clear">Saiba mais</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+	</section>
+
+ <!-- end if  bullet eneabled -->
+
+
+
+<!-- end update imille structure 6/12/2018 -->
+
+<!-- Main content has to inherit the background color from the hero -->
+
+
+<div id="navegacion-tab_contenido"></div>
+
+
+<div class="wrapper-section searchHome">
+	<div class="wrapper-container">
+		
+		
+
+
+
+    
+    
+    <div class="promo-offert">
+
+
+
+
+
+<style>
+
+
+
+
+	@media screen and (min-width: 1024px){
+    .plan-promo.plan-promo--toppad {padding-top: 52px;}
+	}
+	.plan-promo_pricing-list li .pricing-details a.detailOfferLinkColor {
+		color: ;
+	}
+	
+	.plan-promo_pricing-list li .pricing-details a.detailOfferLinkColor:hover {
+		border-bottom: 1px solid ;
+	}
+	
+	a.colorWhite span.text {
+		color: #fff;
+	}
+	
+	a.colorWhite span.ico:after {
+		color: #fff;
+	}
+	.manage-block .plan-promo_content ul li img {   
+	    width: 40%;
+	    float: left;
+	    padding-right: 5%;
+	}
+</style>
+
+	<section class="plan-promo plan-promo--offwhite manage-block anchor  color-scheme--bggray" data-bannerDtm="promo-offert">
+		
+		<div class="space-for-desktop-top">&nbsp;</div>
+	    <div style="padding-top:5px;" class="plan-promo_inner container hub_group">
+	        <div class="hub_inner">
+	            <div class="plan-promo_content">
+	                <span class="eyebrow">Facilidades</span>
+	                <h2 class="title">Conheça nossos serviços online</h2>
+	                <p class="description">Solicite de forma rápida e prática, onde você estiver </p>
+	               <ul>
+					   <li><a href="https://www.enel.com.br/pt/login.html" target="_blank" class="link" style="color: #ff0f64 !important">ACESSE AQUI<span class="ico"></span></a></li>
+        		   
+					   <li><a href="https://www.enel.com.br/pt/Para_Voce/passo-a-passo-cadastro-site-enel.html" target="_blank" class="link" style="color: #ff0f64 !important">VEJA COMO SE CADASTRAR NO SITE E APLICATIVO<span class="ico"></span></a></li>
+        		   </ul>
+	               	
+	            </div>
+	            <div class="plan-promo_plan-holder-parsys">
+	            	
+
+
+
+    
+    
+    <div class="plan-promo_plan-holder image-info image">
+
+
+	<div class="plan-promo-block-text ">
+    	
+        <h2>Você ainda recebe sua conta em papel?</h2>
+        <p>Ao se cadastrar no site ou no app, você passa a receber as contas em seu email. Elas ficam fáceis de acessar e você não acumula papel em casa. Cadastre-se!</p>
+		
+        <a href="http://www.eneldistribuicao.com.br/rj/AcessoRapidoContaPorEmail.aspx" target="_blank" class="latam-btn-cta--pink " style="font-size:12px;">Clique aqui</a>
+	</div>
+
+
+
+<div class="plan-promo-block-image" style="background-color: #0555FA !important;">
+    <div class="img-bg" style="left:0%; background-image: url('/content/enel-br/pt/_jcr_content/home-par1/promo_offert/promo-par/image_info.img.png/1623890820646.png');">
+		<!-- <img  data-sly-use.decoration="com.enel.website.com.wcm.common.ImageDecorationHandler"
+					src="/content/enel-br/pt/jcr:content/home-par1/promo_offert/promo-par/image_info.img.png/1623890820646.png"
+					data-src=""
+					width="" height=""
+					title=""
+					alt="false"
+					data-emptytext="Image"
+					class="  " /> -->
+	</div>
+</div>	
+
+
+</div>
+
+
+    
+    
+    <div class="plan-promo_plan-holder image-info image">
+
+
+	<div class="plan-promo-block-text ">
+    	
+        <h2>Débito Automático</h2>
+        <p> Evite filas, juros e multas por atraso de pagamento. Clique aqui e coloque sua conta Enel em débito automático. </p>
+		
+        <a href="http://www.eneldistribuicao.com.br/rj/AcessoRapidoDebitoAutomatico.aspx" target="_blank" class="latam-btn-cta--pink " style="font-size:12px;">Clique aqui</a>
+	</div>
+
+
+
+<div class="plan-promo-block-image" style="background-color: #FF5A0F !important;">
+    <div class="img-bg" style="left:0%; background-image: url('/content/enel-br/pt/_jcr_content/home-par1/promo_offert/promo-par/image_info_184098943.img.png/1647540374247.png');">
+		<!-- <img  data-sly-use.decoration="com.enel.website.com.wcm.common.ImageDecorationHandler"
+					src="/content/enel-br/pt/jcr:content/home-par1/promo_offert/promo-par/image_info_184098943.img.png/1647540374247.png"
+					data-src=""
+					width="" height=""
+					title=""
+					alt="false"
+					data-emptytext="Image"
+					class=" cq-dd-image " /> -->
+	</div>
+</div>	
+
+
+</div>
+
+
+
+	            </div>
+	        </div>
+	    </div>
+	</section>
+
+</div>
+
+
+    
+    
+    <div class="group parbase">
+<section data-swipermode="true" id="carousel-home-module" data-name="group_2011110160" data-module="hub" class="module-layout
+         
+         
+         home-group
+         carousel-home related-content_inner desktop-carousel ultime-notizie
+         bg-white 
+          " style="max-width:100%">
+    <div class="hub_group anchor">
+        
+            <div class="related-content__cards" id="related-content-wrapper_related">
+        
+        
+        
+            <div class="hub_header ">
+        
+        <div class="hub_header_inner" data-bannerDtm="hub group">
+            <h2 class="text--page-subheading latam-h2 hub-group-title-no-bold">Acesso Rápido</h2>
+            
+            
+            
+        </div>
+    </div>
+
+
+
+
+    <div style="display:none !important" class="hub_inner hubgroup-items-section module-simple-boxes module-layout">
+        
+
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.eneldistribuicao.com.br/PortalGD/ENELRJ/Acessante/" class="tile tile--small bg " data-bannerdtm="module">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/portal-gd-rj.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Acesso Portal GD
+                
+            </h3>
+            <p class="tile_description text--tile-description">Solicitações e Acompanhamento de projetos GD
+</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/agende-seu-atendimento-presencial.html?utm_source=home&utm_medium=banner&utm_campaign=banner-home-agende-seu-atendimento-presencial-rio-de-janeiro" class="tile tile--small bg " data-bannerdtm="module2">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/enel-agendamento-atendimento-presencial_MENOR.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Agendar atendimento
+                
+            </h3>
+            <p class="tile_description text--tile-description">Agende seu atendimento presencial na loja</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/login.html" target="_self" class="tile tile--small bg " data-bannerdtm="module3">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/parcelamento.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Parcelamento de conta
+                
+            </h3>
+            <p class="tile_description text--tile-description">Clique aqui e regularize seus débitos de conta com a Enel</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.eneldistribuicao.com.br/rj/loginAcessoRapidopagamento.aspx" class="tile tile--small bg " data-bannerdtm="module4">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/atualizacao-de-imagens/codigo-de-barras-pagamento-online.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Código de Barras e Pagamento Online
+                
+            </h3>
+            <p class="tile_description text--tile-description">Pague aqui sua conta de energia.  Acesse e confira os bancos credenciados.  </p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.eneldistribuicao.com.br/rj/AcessoRapidoSegundaVia.aspx" title="Segunda via de conta, Se abre en ventana nueva" target="_blank" class="tile tile--small bg " data-bannerdtm="module5">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/atualizacao-de-imagens/segunda-via.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Segunda via de conta
+                
+            </h3>
+            <p class="tile_description text--tile-description">Acesse aqui a segunda via da sua conta de energia.</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/login.html" title="Está Sem Energia?, Se abre en ventana nueva" target="_blank" class="tile tile--small bg " data-bannerdtm="module6">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/enel-falta-de-luz_MENOR.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Está Sem Energia?
+                
+            </h3>
+            <p class="tile_description text--tile-description">Clique aqui e solicite atendimento.  </p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/servico/troca-de-titularidade.html" title="Troca de Titularidade, Se abre en ventana nueva" target="_blank" class="tile tile--small bg " data-bannerdtm="module7">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/atualizacao-de-imagens/troca-de-titularidade.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Troca de Titularidade
+                
+            </h3>
+            <p class="tile_description text--tile-description">Solicite a troca de titularidade da conta de energia por aqui. </p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/login.html" title="Atualização Cadastral, Se abre en ventana nueva" target="_blank" class="tile tile--small bg " data-bannerdtm="module8">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/para-você/para-voce-home/agencia-virtual-enel.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Atualização Cadastral
+                
+            </h3>
+            <p class="tile_description text--tile-description">Atualize seu cadastro e acesse as informações do seu imóvel com segurança, rapidez e comodidade.</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+
+        
+        
+        
+
+    </div>
+    
+        </div>
+    
+    </div>
+    
+    <!-- Mobile version -->
+    <div class="hub_inner_mobile module-layout-mobile group-slider-in-desktop" style="display: block !important;">
+    </div>
+	
+
+
+</section>
+
+<div style="clear:both"></div>
+<script>
+$(document).ready(function () {
+    $(".group").each(function() {
+    	if ($(this).find("section.bg-lightgray").length > 0) {
+    		$(this).addClass("bg-lightgray");
+    	} else if ($(this).find("section.bg-transparent").length > 0) {
+    		$(this).addClass("bg-transparent");
+    	} else if ($(this).find("section.bg-gray").length > 0) {
+    		$(this).addClass("bg-gray");
+    	} else if ($(this).find("section.bg-white").length > 0) {
+    		$(this).addClass("bg-white");
+    	} else if ($(this).find(".hub")) {
+	        var bgColor = $(this).find(".hub").css("background-color");
+	        if (typeof bgColor != 'undefined') {
+	        	$(this).css("background-color", bgColor);
+	        }
+	        console.log("hub group background-color: " + bgColor)
+   		}
+    });
+});
+</script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        var flagMiniCard = false;
+        var flagRelated = false;
+        var root = $('section[data-name="group_2011110160"]');
+        var $module =  $('section[data-name="group_2011110160"] .hub_inner');
+        
+        function fixDesignInPublishMode() {
+            $(root).find(".mini-card.parbase").each(function () {
+                var html = $(this).html();
+                $(this).parent().append(html);
+                $(this).remove();
+                flagMiniCard = true;
+            });
+            $(root).find(".link-content.parbase").each(function () {
+                   flagRelated = true;
+            });
+
+                   if (flagMiniCard) {
+                $(root).parent().css("text-align", "center");
+                $(root).removeClass();
+                $(root).addClass("wrapper-section preventi version2 future hub related-content module module--initialized customer-wrapper related-content_inner home-group group enel-futuro home-wrapper");
+                // $(root).first().addClass("related-content_inner");
+            } else if (flagRelated) {
+                // $(root).children(".hub_group.anchor").removeClass("hub_group anchor").addClass("related-content_inner");
+                $(root).removeClass();
+                $(root).addClass("hub module bg\u002Dwhite products clearfix home-group per-la-tua-impresa group-wrapper");
+                $(root).find(".group-slider-in-desktop").addClass("group-slider-centered");
+            }
+        }
+        fixDesignInPublishMode();
+
+    });
+</script>
+
+
+</div>
+
+
+    
+    
+    <div class="group parbase">
+<section data-swipermode="true" id="carousel-home-module" data-name="group_396335391" data-module="hub" class="module-layout
+         
+         
+         home-group
+         carousel-home related-content_inner desktop-carousel ultime-notizie
+         bg-gray 
+          " style="max-width:100%">
+    <div class="hub_group anchor">
+        
+            <div class="related-content__cards" id="related-content-wrapper_related">
+        
+        
+        
+            <div class="hub_header ">
+        
+        <div class="hub_header_inner" data-bannerDtm="hub group2">
+            <h2 class="text--page-subheading latam-h2 hub-group-title-no-bold">Para Sua Empresa</h2>
+            
+            
+            
+        </div>
+    </div>
+
+
+
+
+    <div style="display:none !important" class="hub_inner hubgroup-items-section  module-layout">
+        
+
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+
+    
+        
+    
+    <script>
+        $(document).ready(function(){
+            $('#carousel-home-module .latam-a').parent().addClass('tile--image-large-container');
+        });
+
+
+    </script>
+
+    
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/Corporativo_e_Governo/Informacoes_sobre_servicos.html" title="Informações Sobre Serviços, Se abre en ventana nueva" target="_blank" class="tile tile--small bg latam-a singleLarge-image" data-bannerdtm="module9">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner bg-gray">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/atualizacao-de-imagens/informacoes-sobre-servicos.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            <h3 class="tile_header text--tile-heading">Informações Sobre Serviços</h3>
+        </div>
+    </div>
+    </a>
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+
+    
+        
+    
+    <script>
+        $(document).ready(function(){
+            $('#carousel-home-module .latam-a').parent().addClass('tile--image-large-container');
+        });
+
+
+    </script>
+
+    
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.enel.com.br/pt/Corporativo_e_Governo/Dicas_e_Orientacoes.html" title="Dicas e Orientações, Se abre en ventana nueva" target="_blank" class="tile tile--small bg latam-a singleLarge-image" data-bannerdtm="module10">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner bg-gray">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/dicas-e-orientacoes.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            <h3 class="tile_header text--tile-heading">Dicas e Orientações</h3>
+        </div>
+    </div>
+    </a>
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+
+    
+        
+    
+    <script>
+        $(document).ready(function(){
+            $('#carousel-home-module .latam-a').parent().addClass('tile--image-large-container');
+        });
+
+
+    </script>
+
+    
+    
+        
+
+        
+            
+            
+                
+                    <a href="https://www.eneldistribuicao.com.br/rj/NormasTecnicas.aspx" title="Normas Técnicas, Se abre en ventana nueva" target="_blank" class="tile tile--small bg latam-a singleLarge-image" data-bannerdtm="module11">
+                
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner bg-gray">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/atualizacao-de-imagens/normas.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            <h3 class="tile_header text--tile-heading">Normas Técnicas</h3>
+        </div>
+    </div>
+    </a>
+
+    
+
+
+
+
+</div>
+
+
+
+        
+        
+        
+
+    </div>
+    
+        </div>
+    
+    </div>
+    
+    <!-- Mobile version -->
+    <div class="hub_inner_mobile module-layout-mobile group-slider-in-desktop" style="display: block !important;">
+    </div>
+	
+
+
+</section>
+
+<div style="clear:both"></div>
+<script>
+$(document).ready(function () {
+    $(".group").each(function() {
+    	if ($(this).find("section.bg-lightgray").length > 0) {
+    		$(this).addClass("bg-lightgray");
+    	} else if ($(this).find("section.bg-transparent").length > 0) {
+    		$(this).addClass("bg-transparent");
+    	} else if ($(this).find("section.bg-gray").length > 0) {
+    		$(this).addClass("bg-gray");
+    	} else if ($(this).find("section.bg-white").length > 0) {
+    		$(this).addClass("bg-white");
+    	} else if ($(this).find(".hub")) {
+	        var bgColor = $(this).find(".hub").css("background-color");
+	        if (typeof bgColor != 'undefined') {
+	        	$(this).css("background-color", bgColor);
+	        }
+	        console.log("hub group background-color: " + bgColor)
+   		}
+    });
+});
+</script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        var flagMiniCard = false;
+        var flagRelated = false;
+        var root = $('section[data-name="group_396335391"]');
+        var $module =  $('section[data-name="group_396335391"] .hub_inner');
+        
+        function fixDesignInPublishMode() {
+            $(root).find(".mini-card.parbase").each(function () {
+                var html = $(this).html();
+                $(this).parent().append(html);
+                $(this).remove();
+                flagMiniCard = true;
+            });
+            $(root).find(".link-content.parbase").each(function () {
+                   flagRelated = true;
+            });
+
+                   if (flagMiniCard) {
+                $(root).parent().css("text-align", "center");
+                $(root).removeClass();
+                $(root).addClass("wrapper-section preventi version2 future hub related-content module module--initialized customer-wrapper related-content_inner home-group group enel-futuro home-wrapper");
+                // $(root).first().addClass("related-content_inner");
+            } else if (flagRelated) {
+                // $(root).children(".hub_group.anchor").removeClass("hub_group anchor").addClass("related-content_inner");
+                $(root).removeClass();
+                $(root).addClass("hub module bg\u002Dgray products clearfix home-group per-la-tua-impresa group-wrapper");
+                $(root).find(".group-slider-in-desktop").addClass("group-slider-centered");
+            }
+        }
+        fixDesignInPublishMode();
+
+    });
+</script>
+
+
+</div>
+
+
+    
+    
+    <div class="group parbase">
+<section data-swipermode="true" id="carousel-home-module" data-name="group_376002609" data-module="hub" class="module-layout
+         
+         
+         home-group
+         carousel-home related-content_inner desktop-carousel ultime-notizie
+         bg-lightgray 
+          " style="max-width:100%">
+    <div class="hub_group anchor">
+        
+            <div class="related-content__cards" id="related-content-wrapper_related">
+        
+        
+        
+            <div class="hub_header ">
+        
+        <div class="hub_header_inner" data-bannerDtm="hub group3">
+            <h2 class="text--page-subheading latam-h2 hub-group-title-no-bold">Inovação e Sustentabilidade</h2>
+            
+            
+            
+        </div>
+    </div>
+
+
+
+
+    <div style="display:none !important" class="hub_inner hubgroup-items-section module-simple-boxes module-layout">
+        
+
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module12" href="https://www.enel.com.br/pt/Sustentabilidade/cultura-da-inovacao.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/inovação-e-sustentabilidade/cultura-da-inovacao/enel-cultura-da-inovacao.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic">inovação</span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Cultura de Inovação e Projetos
+                
+            </h3>
+            <p class="tile_description text--tile-description">Saiba mais sobre como a Cultura da Inovação é fundamental para transformar a inovação na Enel.
+
+</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module13" href="https://www.enel.com.br/pt/Sustentabilidade/nossos-compromissos.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/enel-nossos-compromissos_MENOR.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic">Sustentabilidade</span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Nossos Compromissos
+                
+            </h3>
+            <p class="tile_description text--tile-description">Nosso objetivo: deixar um mundo melhor e mais sustentável para as gerações futuras.</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module14" href="https://www.enel.com.br/pt/Sustentabilidade/relatorios-anuais.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/inovação-e-sustentabilidade/relatorio-anual/open-future.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic">Sustentabilidade</span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Relatório Enel de Sustentabildade
+                
+            </h3>
+            <p class="tile_description text--tile-description">Conheça nossos principais indicadores, estratégias, iniciativas e resultados.</p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module15" href="https://www.enel.com.br/pt/Sustentabilidade/iniciativas.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/enel-ecoenel_MENOR.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic">SUSTENTABILIDADE</span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Nossas Iniciativas
+                
+            </h3>
+            <p class="tile_description text--tile-description">Referência em sustentabilidade, o Ecoenel alia gestão ambiental, social e tecnologia. </p>
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+
+        
+        
+        
+
+    </div>
+    
+        </div>
+    
+    </div>
+    
+    <!-- Mobile version -->
+    <div class="hub_inner_mobile module-layout-mobile group-slider-in-desktop" style="display: block !important;">
+    </div>
+	
+
+
+</section>
+
+<div style="clear:both"></div>
+<script>
+$(document).ready(function () {
+    $(".group").each(function() {
+    	if ($(this).find("section.bg-lightgray").length > 0) {
+    		$(this).addClass("bg-lightgray");
+    	} else if ($(this).find("section.bg-transparent").length > 0) {
+    		$(this).addClass("bg-transparent");
+    	} else if ($(this).find("section.bg-gray").length > 0) {
+    		$(this).addClass("bg-gray");
+    	} else if ($(this).find("section.bg-white").length > 0) {
+    		$(this).addClass("bg-white");
+    	} else if ($(this).find(".hub")) {
+	        var bgColor = $(this).find(".hub").css("background-color");
+	        if (typeof bgColor != 'undefined') {
+	        	$(this).css("background-color", bgColor);
+	        }
+	        console.log("hub group background-color: " + bgColor)
+   		}
+    });
+});
+</script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        var flagMiniCard = false;
+        var flagRelated = false;
+        var root = $('section[data-name="group_376002609"]');
+        var $module =  $('section[data-name="group_376002609"] .hub_inner');
+        
+        function fixDesignInPublishMode() {
+            $(root).find(".mini-card.parbase").each(function () {
+                var html = $(this).html();
+                $(this).parent().append(html);
+                $(this).remove();
+                flagMiniCard = true;
+            });
+            $(root).find(".link-content.parbase").each(function () {
+                   flagRelated = true;
+            });
+
+                   if (flagMiniCard) {
+                $(root).parent().css("text-align", "center");
+                $(root).removeClass();
+                $(root).addClass("wrapper-section preventi version2 future hub related-content module module--initialized customer-wrapper related-content_inner home-group group enel-futuro home-wrapper");
+                // $(root).first().addClass("related-content_inner");
+            } else if (flagRelated) {
+                // $(root).children(".hub_group.anchor").removeClass("hub_group anchor").addClass("related-content_inner");
+                $(root).removeClass();
+                $(root).addClass("hub module bg\u002Dlightgray products clearfix home-group per-la-tua-impresa group-wrapper");
+                $(root).find(".group-slider-in-desktop").addClass("group-slider-centered");
+            }
+        }
+        fixDesignInPublishMode();
+
+    });
+</script>
+
+
+</div>
+
+
+    
+    
+    <div class="group parbase">
+<section data-swipermode="true" id="carousel-home-module" data-name="group_1661831911" data-module="hub" class="module-layout
+         
+         
+         home-group
+         carousel-home related-content_inner desktop-carousel ultime-notizie
+         bg-white 
+          " style="max-width:100%">
+    <div class="hub_group anchor">
+        
+            <div class="related-content__cards" id="related-content-wrapper_related">
+        
+        
+        
+            <div class="hub_header ">
+        
+        <div class="hub_header_inner" data-bannerDtm="hub group4">
+            <h2 class="text--page-subheading latam-h2 hub-group-title-no-bold">Notícias</h2>
+            
+            <ul>
+                <li>
+                    <a href="https://www.enel.com.br/pt/midia/noticias.html" target="_self" class="text-standard">Veja Mais Notícias</a>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+
+
+
+
+    <div style="display:none !important" class="hub_inner hubgroup-items-section module-simple-boxes module-layout">
+        
+
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module16" href="https://www.enel.com.br/pt/midia/news/20220/04/o-futuro-do-consumo-da-energia.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/enel-br/pt/megamenu/midia/news/20220/04/o-futuro-do-consumo-da-energia/_jcr_content/hero/image5.img.jpg/1650993723634.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Nossa Energia para um amanhã melhor
+                
+            </h3>
+            
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module17" href="https://www.enel.com.br/pt/midia/news/d202105-Estamos_realizando_manutencoes_noturnas_no_Rio_de_Janeiro.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/dam/enel-br/megamenu/imagens-home/enel-obras-noturnas-rio-de-janeiro.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Estamos realizando manutenções noturnas no Rio de Janeiro
+                
+            </h3>
+            
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+    
+    
+    <div class="module-content parbase">
+
+    
+
+    
+        
+    
+
+
+    
+
+    
+        
+
+        
+            
+            
+                
+                
+                    <a class="tile tile--small bg" data-bannerdtm="module18" href="https://www.enel.com.br/pt/midia/news/d202106-unidos-pela-vacina-a-enel-brasil-abraca-essa-causa.html">
+                
+            
+        
+    
+
+    
+
+    <div class="tile_inner ">
+        <div class="tile_image-wrapper" style="background-image:url('/content/enel-br/pt/megamenu/midia/news/2021/06/unidos-pela-vacina-a-enel-brasil-abraca-essa-causa/_jcr_content/hero/image5.img.jpg/1624987783336.jpg')">
+        </div>
+
+        <div class="tile_content-wrapper">
+            
+                <span class="tile_topic"></span>
+            
+
+            
+
+            
+            <h3 class="tile_header text--tile-heading single-module-heading" style="display:inline-block;width:310px">Unidos pela vacina: A Enel Brasil abraça essa causa! 
+                
+            </h3>
+            
+        </div>
+    </div>
+    </a>
+
+    
+
+    
+
+
+
+
+</div>
+
+
+
+        
+        
+        
+
+    </div>
+    
+        </div>
+    
+    </div>
+    
+    <!-- Mobile version -->
+    <div class="hub_inner_mobile module-layout-mobile group-slider-in-desktop" style="display: block !important;">
+    </div>
+	
+
+
+</section>
+
+<div style="clear:both"></div>
+<script>
+$(document).ready(function () {
+    $(".group").each(function() {
+    	if ($(this).find("section.bg-lightgray").length > 0) {
+    		$(this).addClass("bg-lightgray");
+    	} else if ($(this).find("section.bg-transparent").length > 0) {
+    		$(this).addClass("bg-transparent");
+    	} else if ($(this).find("section.bg-gray").length > 0) {
+    		$(this).addClass("bg-gray");
+    	} else if ($(this).find("section.bg-white").length > 0) {
+    		$(this).addClass("bg-white");
+    	} else if ($(this).find(".hub")) {
+	        var bgColor = $(this).find(".hub").css("background-color");
+	        if (typeof bgColor != 'undefined') {
+	        	$(this).css("background-color", bgColor);
+	        }
+	        console.log("hub group background-color: " + bgColor)
+   		}
+    });
+});
+</script>
+<script type="application/javascript">
+    $(document).ready(function () {
+        var flagMiniCard = false;
+        var flagRelated = false;
+        var root = $('section[data-name="group_1661831911"]');
+        var $module =  $('section[data-name="group_1661831911"] .hub_inner');
+        
+        function fixDesignInPublishMode() {
+            $(root).find(".mini-card.parbase").each(function () {
+                var html = $(this).html();
+                $(this).parent().append(html);
+                $(this).remove();
+                flagMiniCard = true;
+            });
+            $(root).find(".link-content.parbase").each(function () {
+                   flagRelated = true;
+            });
+
+                   if (flagMiniCard) {
+                $(root).parent().css("text-align", "center");
+                $(root).removeClass();
+                $(root).addClass("wrapper-section preventi version2 future hub related-content module module--initialized customer-wrapper related-content_inner home-group group enel-futuro home-wrapper");
+                // $(root).first().addClass("related-content_inner");
+            } else if (flagRelated) {
+                // $(root).children(".hub_group.anchor").removeClass("hub_group anchor").addClass("related-content_inner");
+                $(root).removeClass();
+                $(root).addClass("hub module bg\u002Dwhite products clearfix home-group per-la-tua-impresa group-wrapper");
+                $(root).find(".group-slider-in-desktop").addClass("group-slider-centered");
+            }
+        }
+        fixDesignInPublishMode();
+
+    });
+</script>
+
+
+</div>
+
+
+    
+    
+    <div class="group-link">
+
+
+
+<section class="link-group link-group-b service-wrapper bg-blue" data-bannerDtm="group-link">
+  <div class="container">
+    <h2 class="link-group-title latam-h2">Links Úteis</h2>
+    <div class="help-tabs__nav swiper-container">
+      <ul class="swiper-wrapper">
+        <li class="swiper-slide" style="">
+          <a href="#link-group-1" class="active latam-a">
+            Sobre a Enel
+          </a>
+        </li>
+        <li class="swiper-slide" style="">
+          <a href="#link-group-2" class="latam-a">
+            Informações Úteis
+          </a>
+        </li>
+        <li class="swiper-slide" style="">
+          <a href="#link-group-3" class="latam-a">
+            Canais de Atendimento Enel Rio de Janeiro
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="link-group-content">
+      <div class="help-tabs__content-wrapper">
+      	<div class="group-link-wrapper help-tabs__content" id="link-group-1">
+
+
+
+    
+    
+    <div class="group-link-wrapper">    <div class="grid__editor__link-group">
+<div class="link-group-column column-icon  icon-block">
+    <h3 class="help-tabs__eyebrow eyebrow latam-eyebrow" style="height: 15px;">
+       
+        Central de Relacionamento Enel Rio De Janeiro
+    </h3>
+    <ul>
+      <li><a href="tel:08002800120" target="_blank">0800 28 00 120 (Central de Relacionamento Enel Rio de Janeiro)</a></li>
+    
+      <li><a href="tel:08002821887" target="_blank">0800 28 21 887 (Central de Relacionamento Enel Rio de Janeiro Para Deficientes Auditivos)</a></li>
+    </ul>
+</div></div>
+    <div class="grid__editor__link-group">
+<div class="link-group-column column-icon  icon-block">
+    <h3 class="help-tabs__eyebrow eyebrow latam-eyebrow" style="height: 15px;">
+       
+        Canais Digitais
+    </h3>
+    <ul>
+      <li><a href="https://www.enel.com.br/pt/Canais/Aplicativo_Enel.html" target="_blank">Aplicativo</a></li>
+    
+      <li><a href="https://journey.atento.com.br/JourneywebPortal/enel/16/bot" target="_blank">Fale Conosco</a></li>
+    
+      <li><a href="https://api.whatsapp.com/send?1=pt_BR&phone=5521996019608" target="_blank">Whatsapp</a></li>
+    
+      <li><a href="https://web.telegram.org/#/im?p=@enelclientesbot" target="_blank">Telegram</a></li>
+    
+      <li><a href="https://www.facebook.com/messages/t/157964194719" target="_blank">Facebook</a></li>
+    
+      <li><a href="https://twitter.com/EnelClientesBR" target="_blank">Twitter</a></li>
+    </ul>
+</div></div>
+    <div class="grid__editor__link-group">
+<div class="link-group-column column-icon  icon-block">
+    <h3 class="help-tabs__eyebrow eyebrow latam-eyebrow" style="height: 15px;">
+       
+        Atendimento Presencial
+    </h3>
+    <ul>
+      <li><a href="https://www.enel.com.br/pt/agende-seu-atendimento-presencial.html" target="_self">Agendamento de Atendimento Presencial</a></li>
+    
+      <li><a href="https://www.eneldistribuicao.com.br/rj/LocaisDePagamento.aspx" target="_blank">Locais de Pagamento</a></li>
+    
+      <li><a href="https://www.eneldistribuicao.com.br/agendamentorj/" target="_blank">Lojas Enel</a></li>
+    </ul>
+</div></div>
+
+
+</div>
+
+
+</div>
+      	<div class="group-link-wrapper help-tabs__content" id="link-group-2">
+
+
+
+</div>
+      	<div class="group-link-wrapper help-tabs__content" id="link-group-3">
+
+
+
+</div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+
+
+	</div>
+</div>
+<div class="wrapper-sec">
+	
+
+
+
+
+</div></main>
+<!-- START MODULE: LOCALISATION BRAZIL-->
+<div>
+<section id="localizatormodal" style="display:none" data-isedit="no_edit" data-isview="no_view" class="fullPageSect">
+  <div class="fullPageCnt">
+    <div class="global_logo">
+        <a href="#"><img class="global-header__logo__bw" src="/etc/designs/enel-br/img/enel-logo.png"/></a>
+    </div>
+    <button class="btn-close closelocalization">
+        <span class="icon-close"></span>
+    </button>
+    
+    
+     <div id="localizatordropdowns" class="fullPageCnt-inner" style="display:none;">
+       <h2>Conheça o novo site da Enel Brasil</h2>
+        <p>Selecione o seu Estado:</p>
+      <select class="form-control" id="localizator_region" name="relacion-cuenta">
+        <option selected="selected">Selecione o estado</option>
+       	
+			<option value="RIO DE JANEIRO" data-loc-path="http://www.enel.com.br/pt">RIO DE JANEIRO</option>
+   		
+			<option value="CEARÁ" data-loc-path="http://www.enel.com.br/pt-ceara">CEARÁ</option>
+   		
+			<option value="GOIÁS" data-loc-path="http://www.enel.com.br/pt-goias">GOIÁS</option>
+   		
+			<option value="SÃO PAULO" data-loc-path="http://www.enel.com.br/pt-saopaulo">SÃO PAULO</option>
+   		
+      </select>
+    </div>
+    
+    
+    <div id="localizatorbuttons" class="fullPageCnt2-inner" style="display:none;">
+       <h2>Conheça o novo site da Enel Brasil</h2>
+        <p>Selecione o seu Estado:</p>
+ 		<div class="btns-holder">
+	       	
+	        	<a href="#" data-loc-path="http://www.enel.com.br/pt" class="latam-btn-cta latam-btn-cta--clear selectbrazilregion">RIO DE JANEIRO</a>
+   			
+	        	<a href="#" data-loc-path="http://www.enel.com.br/pt-ceara" class="latam-btn-cta latam-btn-cta--clear selectbrazilregion">CEARÁ</a>
+   			
+	        	<a href="#" data-loc-path="http://www.enel.com.br/pt-goias" class="latam-btn-cta latam-btn-cta--clear selectbrazilregion">GOIÁS</a>
+   			
+	        	<a href="#" data-loc-path="http://www.enel.com.br/pt-saopaulo" class="latam-btn-cta latam-btn-cta--clear selectbrazilregion">SÃO PAULO</a>
+   			
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="fullPageFooter">
+
+    <p>Não é cliente Enel?<a href="https://www.enel.com.br/" title=""> Clique aqui</a> e conheça o nosso Grupo</p>
+
+  </div>
+</section>
+
+<script>
+$(document).ready(function(){
+	initLocalizatorBrazil();
+});
+</script></div>
+<!-- END MODULE: LOCALISATION-->
+<!-- START MODULE: TOP HEADER BRASIL-->
+<div class="topHeader">
+
+    <span class="topHeader-item">ENEL</span>
+    <span class="topHeader-item-last"></span>
+</div>
+<script>
+    $(document).ready(function(){
+        var location = Cookies.get('EnelLocationArea');
+        if (location) {
+        console.log('location brasil');
+            console.log(location);
+            $('.topHeader .topHeader-item-last').html(location);
+        }
+
+    })
+</script>
+<!-- END MODULE: TOP HEADER -->
+<footer data-module="footer" class="footer module">
+    
+<div class="footer-container">
+  <div class="footer-content">
+    <div class="footer-section footer-legal" data-bannerDtm="footer">
+      <ul class="footer-copyright">
+        
+          <li class="footer-legal-item footer-legal-text">&copy; Enel Spa. All Rights Reserved</li>
+        
+        
+        
+          <li class="footer-legal-item footer-legal-text">Enel Spa VAT 00934061003</li>
+        
+        
+      </ul>
+      <ul class="footer-legal-links">
+        <li class="footer-legal-item">
+          <a href="https://www.enel.com.br/pt/footer/termos-gerais-de-uso.html" target="_blank">Termos de Uso</a>
+        </li>
+      
+        <li class="footer-legal-item">
+          <a href="https://www.enel.com.br/pt/footer/politica-de-privacidade.html" target="_blank">Política de Privacidade</a>
+        </li>
+      
+        <li class="footer-legal-item">
+          <a href="https://www.enel.com.br/pt/footer/aviso-de-privacidade.html" target="_blank">Aviso de Privacidade</a>
+        </li>
+      
+        <li class="footer-legal-item">
+          <a href="https://www.enel.com.br/pt/footer/uso-de-cookies.html" target="_blank">Uso de Cookies</a>
+        </li>
+      
+        <li class="footer-legal-item">
+          <a href="https://www.enel.com.br/pt/footer/termo-de-consentimento-para-fins-de-marketing.html" target="_self">Termo de Consentimento para Fins de Marketing</a>
+        </li>
+      </ul>
+    </div>
+	<div class="footer-section footer-social">
+      <p></p>
+      <ul>
+        
+        <li class="footer-social-item"><a href="https://twitter.com/EnelClientesBR" aria-label="Ir al perfil de Twitter de Enel" class="icon-twitter" title="Ir al perfil de Twitter de Enel" target="_blank"><span>Twitter</span></a></li>
+        <li class="footer-social-item"><a href="https://www.facebook.com/EnelClientesBR" aria-label="Ir al perfil de Facebook de Enel" class="icon-fb" title="Ir al perfil de Facebook de Enel" target="_blank"><span>Facebook</span></a></li>
+        
+        
+        <li class="footer-social-item"><a href="https://www.linkedin.com/company/enel-brasil/" aria-label="Ir al perfil de Linkedin de Enel" class="icon3-linkedin" data-bannerdtm="footer" title="Ir al perfil de Linkedin de Enel" target="_blank"><span>LinkedIn</span></a></li>
+        <li class="footer-social-item"><a href="https://www.instagram.com/enelbrasil/" aria-label="Ir al perfil de Instagram de Enel" class="icon2-instagram" data-bannerdtm="footer" title="Ir al perfil de Instagram de Enel" target="_blank"><span>Instagram</span></a></li>
+      	
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Pop-up login -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+ if($('#centralLink').length > 0){
+   $('#centralLink').attr("href", $('#centralLink').data("link-center"));
+   $('#sxLink').attr("href", $('#sxLink').data("link-left"));
+   $('#dxLink').attr("href", $('#dxLink').data("link-right"));
+ }
+});
+</script>
+<script>
+function goPrivateArea() {
+	 if(window.location.href.indexOf("enel.cl") != -1
+	     || window.location.href.indexOf("enel.pe") != -1
+	     || window.location.href.indexOf("enel.co") != -1 ){
+		 if(window.location.href.indexOf("www.enel.cl") > -1){
+		 	window.location.href = 'https://accounts.enel.com/samlsso?spEntityID=ENEL_WEB_CIL';
+		 }else if(window.location.href.indexOf("qual.enel.cl") > -1){
+		 	window.location.href = 'https://accounts-coll.enel.com:9443/samlsso?spEntityID=ENEL_WEB_CIL';
+		 }else {
+	   		window.location.href = $(".redirectUrlLoginBtn")[0].dataset.sessiondatakeyurl;
+	     }
+		 }else{
+	           var currentUrl = (window.location.pathname);
+	           commonLatamAjaxCall(currentUrl, null, "checkAuthentication", "POST", function(result){
+	               if(typeof result != 'undefined' && typeof result != 'undefined' && result == true){
+	                   if ($(".redirectUrlLogin")[0].dataset.redirecturl != undefined && $(".redirectUrlLogin")[0].dataset.redirecturl != "") {
+	                           window.location.replace($(".redirectUrlLogin")[0].dataset.redirecturl);
+	                       }
+	               } else {
+	                   $.fancybox.open( $('#login-wrapper'));
+	               }
+	           });
+	     }
+	}
+</script>
+
+
+</footer>
+
+
+
+
+
+
+
+
+<!-- HOME BRASIL END -->
+ 
+
+ 
+    
+<script type="text/javascript" src="/etc/designs/enel-latam-com/clientlibs/main.min.js"></script>
+
+
+
+
+
+
+
+    
+<script type="text/javascript" src="/etc/designs/enel-br/clientlib-all.min.js"></script>
+
+
+
+
+    
+<script type="text/javascript" src="/etc/designs/enel-br/clientlib-site.min.js"></script>
+
+
+
+
+    
+<link rel="stylesheet" href="/etc/designs/enel-br/uniqueid.min.css" type="text/css">
+<script type="text/javascript" src="/etc/designs/enel-br/uniqueid.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<script>            
+  var touchsupport = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0)
+  if (!touchsupport) { // browser doesn't support touch
+      document.documentElement.className += "no-touch";
+  }
+</script>
+<script>
+if ($(".dotcom-header__btn")[0] != undefined) {
+	var main = $("#main")[0];
+	main.setAttribute("data-starting-point", "main");
+	
+	$('[data-module="global-megamenu"]').attr('data-starting-point', 'main');
+	$('[data-module="footer"]').attr('data-starting-point', 'main');
+}
+</script>
+
+<script type="text/javascript">
+if (window._satellite) {
+	window._satellite.pageBottom();
+}
+ </script><script async type="text/javascript" src="/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=1&cb=428911058"></script>
+</body>
+</html>
